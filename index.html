@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mauro Lopez — SRE / DevOps Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --surface2: #1a2235;
+    --accent: #38bdf8;
+    --accent2: #818cf8;
+    --green: #34d399;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --border: #1e293b;
+    --glow: rgba(56,189,248,0.15);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* GRID BACKGROUND */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(56,189,248,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(56,189,248,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1; }
+
+  /* ====== HEADER ====== */
+  header {
+    padding: 5rem 0 3rem;
+    position: relative;
+  }
+
+  .header-inner { display: flex; flex-direction: column; gap: 1rem; }
+
+  .status-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.3);
+    border-radius: 100px; padding: 0.3rem 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem; color: var(--green);
+    width: fit-content;
+    animation: fadeDown 0.6s ease both;
+  }
+  .status-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+
+  h1 {
+    font-size: clamp(2.8rem, 8vw, 5rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    animation: fadeDown 0.7s 0.1s ease both;
+  }
+  h1 span { color: var(--accent); }
+
+  .tagline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.95rem;
+    color: var(--muted);
+    animation: fadeDown 0.7s 0.2s ease both;
+  }
+  .tagline span { color: var(--accent2); }
+
+  .contact-row {
+    display: flex; flex-wrap: wrap; gap: 1rem;
+    margin-top: 0.5rem;
+    animation: fadeDown 0.7s 0.3s ease both;
+  }
+  .contact-pill {
+    display: flex; align-items: center; gap: 0.4rem;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .contact-pill:hover { color: var(--accent); }
+  .contact-pill svg { width: 14px; height: 14px; }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    margin: 2rem 0;
+    opacity: 0.4;
+  }
+
+  /* ====== SECTION ====== */
+  section { margin-bottom: 4rem; }
+
+  .section-label {
+    display: flex; align-items: center; gap: 0.8rem;
+    margin-bottom: 1.5rem;
+  }
+  .section-label span.mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem; color: var(--accent);
+    letter-spacing: 0.12em;
+  }
+  .section-label h2 {
+    font-size: 1.25rem; font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1; height: 1px;
+    background: var(--border);
+  }
+
+  /* ====== SUMMARY ====== */
+  .summary-text {
+    font-size: 1.05rem;
+    color: #94a3b8;
+    line-height: 1.8;
+    border-left: 3px solid var(--accent);
+    padding-left: 1.25rem;
+  }
+
+  /* ====== SKILLS GRID ====== */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+
+  .skill-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  }
+  .skill-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px var(--glow);
+  }
+  .skill-cat {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem; color: var(--accent);
+    letter-spacing: 0.1em; margin-bottom: 0.5rem;
+    text-transform: uppercase;
+  }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .tag {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.2rem 0.55rem;
+    font-size: 0.78rem;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .tag.highlight { border-color: rgba(56,189,248,0.4); color: var(--accent); }
+
+  /* ====== EXPERIENCE ====== */
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+
+  .job {
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .job::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--border);
+    transition: background 0.2s;
+  }
+  .job:hover { border-color: rgba(56,189,248,0.3); box-shadow: 0 4px 20px var(--glow); }
+  .job:hover::before { background: var(--accent); }
+  .job:first-child::before { background: var(--accent); }
+
+  .job-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    flex-wrap: wrap; gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+  .job-title { font-size: 1rem; font-weight: 700; }
+  .job-company { color: var(--accent); font-weight: 600; }
+  .job-period {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem; color: var(--muted);
+    background: var(--surface2); border-radius: 6px;
+    padding: 0.2rem 0.6rem; white-space: nowrap;
+  }
+  .job-current {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem; color: var(--green);
+    background: rgba(52,211,153,0.1);
+    border: 1px solid rgba(52,211,153,0.3);
+    border-radius: 6px; padding: 0.2rem 0.6rem;
+    margin-left: 0.5rem;
+  }
+
+  .job ul { list-style: none; margin-top: 0.5rem; }
+  .job ul li {
+    padding: 0.2rem 0 0.2rem 1.1rem;
+    font-size: 0.88rem; color: #94a3b8;
+    position: relative;
+  }
+  .job ul li::before {
+    content: '→';
+    position: absolute; left: 0;
+    color: var(--accent); font-size: 0.75rem;
+    top: 0.28rem;
+  }
+
+  /* ====== CERTS ====== */
+  .certs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.75rem;
+  }
+  .cert-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem;
+    transition: border-color 0.2s;
+  }
+  .cert-card:hover { border-color: var(--accent2); }
+  .cert-logo { font-size: 1.4rem; margin-bottom: 0.4rem; }
+  .cert-name { font-size: 0.82rem; font-weight: 600; }
+  .cert-issuer {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem; color: var(--muted); margin-top: 0.2rem;
+  }
+
+  /* ====== LANGUAGES ====== */
+  .lang-row { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  .lang-item { }
+  .lang-name { font-weight: 700; font-size: 0.95rem; }
+  .lang-level {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem; color: var(--muted);
+  }
+  .lang-bar {
+    height: 4px; border-radius: 2px;
+    background: var(--surface2);
+    margin-top: 0.4rem; width: 140px;
+    overflow: hidden;
+  }
+  .lang-fill {
+    height: 100%; border-radius: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+  }
+
+  /* ====== FOOTER ====== */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 0;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  /* ====== DOWNLOAD BUTTON ====== */
+  .dl-btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #0a0e1a;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem; font-weight: 700;
+    padding: 0.6rem 1.4rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: opacity 0.2s, transform 0.2s;
+    margin-top: 1rem;
+  }
+  .dl-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+
+  @media (max-width: 600px) {
+    header { padding: 3rem 0 2rem; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .certs-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <div class="status-badge">
+        <div class="status-dot"></div>
+        Open to SRE / DevOps Jr–SSr opportunities
+      </div>
+
+      <h1>Mauro <span>Lopez</span></h1>
+
+      <p class="tagline">
+        <span>site_reliability_engineer</span> · cloud · automation · observability
+      </p>
+
+      <div class="contact-row">
+        <a class="contact-pill" href="mailto:molopez991@gmail.com">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          molopez991@gmail.com
+        </a>
+        <a class="contact-pill" href="tel:+541144303127">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          +54 11 4430-3127
+        </a>
+        <a class="contact-pill" href="https://www.linkedin.com/in/mauro-lópez-07866b10b" target="_blank">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+        <span class="contact-pill">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          Buenos Aires, Argentina
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <div class="divider"></div>
+
+  <!-- SUMMARY -->
+  <section>
+    <div class="section-label">
+      <span class="mono">// 01</span>
+      <h2>About</h2>
+    </div>
+    <p class="summary-text">
+      IT professional with <strong>6+ years of experience</strong> in cloud infrastructure, system reliability, and automation.
+      Currently operating AWS &amp; Azure infrastructure for a U.S.-based SaaS client at Netrix. Hands-on with
+      Docker, Kubernetes, Terraform, Ansible, Bash, and Python. Passionate about observability,
+      CI/CD pipelines, and building systems that don't wake you up at 3 AM.
+    </p>
+  </section>
+
+  <!-- SKILLS -->
+  <section>
+    <div class="section-label">
+      <span class="mono">// 02</span>
+      <h2>Technical Stack</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-cat">Cloud</div>
+        <div class="skill-tags">
+          <span class="tag highlight">AWS</span>
+          <span class="tag highlight">Azure</span>
+          <span class="tag">GCP</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-cat">IaC & Config Mgmt</div>
+        <div class="skill-tags">
+          <span class="tag highlight">Terraform</span>
+          <span class="tag highlight">Ansible</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-cat">Containers & Orchestration</div>
+        <div class="skill-tags">
+          <span class="tag highlight">Docker</span>
+          <span class="tag highlight">Kubernetes</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-cat">CI/CD</div>
+        <div class="skill-tags">
+          <span class="tag highlight">GitHub Actions</span>
+          <span class="tag">Azure DevOps</span>
+          <span class="tag">GitLab CI</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-cat">Scripting</div>
+        <div class="skill-tags">
+          <span class="tag highlight">Bash</span>
+          <span class="tag highlight">Python</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-cat">Monitoring</div>
+        <div class="skill-tags">
+          <span class="tag highlight">DataDog</span>
+          <span class="tag">Site24x7</span>
+          <span class="tag">Nagios</span>
+          <span class="tag">CloudWatch</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-cat">OS</div>
+        <div class="skill-tags">
+          <span class="tag highlight">Linux</span>
+          <span class="tag">Windows Server</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-cat">Networking</div>
+        <div class="skill-tags">
+          <span class="tag">TCP/IP</span>
+          <span class="tag">DNS</span>
+          <span class="tag">VPN</span>
+          <span class="tag">VLANs</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section>
+    <div class="section-label">
+      <span class="mono">// 03</span>
+      <h2>Experience</h2>
+    </div>
+    <div class="timeline">
+
+      <div class="job">
+        <div class="job-header">
+          <div>
+            <span class="job-title">Site Reliability Operator SSr</span>
+            <span class="job-current">● current</span><br>
+            <span class="job-company">Netrix</span>
+          </div>
+          <span class="job-period">Mar 2022 – Present</span>
+        </div>
+        <ul>
+          <li>Operated AWS &amp; Azure infrastructure for a major U.S.-based public sector SaaS client.</li>
+          <li>Monitored with DataDog &amp; Site24x7; reduced MTTD through improved alerting and dashboards.</li>
+          <li>Automated operational tasks with Bash and Python, reducing manual effort.</li>
+          <li>Managed containerized workloads with Docker; supported Kubernetes cluster operations.</li>
+          <li>Implemented IaC with Terraform; collaborated on configuration management via Ansible.</li>
+          <li>Worked daily in CI/CD pipelines using Git and Azure DevOps (branching, deploys, rollbacks).</li>
+          <li>Owned incident management, post-mortems, and change documentation.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <div>
+            <span class="job-title">IT Support &amp; Systems Administrator SSr</span><br>
+            <span class="job-company">Laboratorio Hidalgo</span>
+          </div>
+          <span class="job-period">Apr 2018 – Jul 2021</span>
+        </div>
+        <ul>
+          <li>L1/L2 support for ~100 users in a hybrid on-prem/cloud environment.</li>
+          <li>Managed Windows &amp; Linux servers: AD, DHCP, DNS, Exchange, WSUS.</li>
+          <li>Maintained VMware ESXi/vCenter, Postfix, SquidGuard proxy, and Veeam backups.</li>
+          <li>Configured network hardware, structured cabling, and PBX systems.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <div>
+            <span class="job-title">IT Security Consultant Jr.</span><br>
+            <span class="job-company">Penta Security Solutions SRL</span>
+          </div>
+          <span class="job-period">Nov 2015 – Jan 2018</span>
+        </div>
+        <ul>
+          <li>Delivered security services to clients including Axion Energy and Banco Sáenz.</li>
+          <li>Participated in pen testing with Nessus, Acunetix, and Wireshark.</li>
+          <li>Supported infrastructure audits and log analysis for compliance.</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CERTS -->
+  <section>
+    <div class="section-label">
+      <span class="mono">// 04</span>
+      <h2>Certifications</h2>
+    </div>
+    <div class="certs-grid">
+      <div class="cert-card">
+        <div class="cert-logo">☁️</div>
+        <div class="cert-name">AWS Cloud Practitioner</div>
+        <div class="cert-issuer">Amazon Web Services</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-logo">🔷</div>
+        <div class="cert-name">AZ-900: Azure Fundamentals</div>
+        <div class="cert-issuer">Microsoft</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-logo">🔐</div>
+        <div class="cert-name">SC-900: Security &amp; Compliance</div>
+        <div class="cert-issuer">Microsoft</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-logo">🎓</div>
+        <div class="cert-name">Linux Admin · Networking · IT Essentials</div>
+        <div class="cert-issuer">Educación IT / ISTEA</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section>
+    <div class="section-label">
+      <span class="mono">// 05</span>
+      <h2>Education</h2>
+    </div>
+    <div class="job" style="margin-bottom:0.75rem">
+      <div class="job-header">
+        <div>
+          <span class="job-title">Informatic Networking Technician</span>
+          <span class="job-current">● in progress</span><br>
+          <span class="job-company">Universidad Nacional de San Martín</span>
+        </div>
+        <span class="job-period">2020 – Present</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- LANGUAGES -->
+  <section>
+    <div class="section-label">
+      <span class="mono">// 06</span>
+      <h2>Languages</h2>
+    </div>
+    <div class="lang-row">
+      <div class="lang-item">
+        <div class="lang-name">Spanish</div>
+        <div class="lang-level">Native</div>
+        <div class="lang-bar"><div class="lang-fill" style="width:100%"></div></div>
+      </div>
+      <div class="lang-item">
+        <div class="lang-name">English</div>
+        <div class="lang-level">Upper Intermediate (B2) · daily professional use</div>
+        <div class="lang-bar"><div class="lang-fill" style="width:75%"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <footer>
+    <p>mauro lopez · buenos aires, argentina · 2025</p>
+    <p style="margin-top:0.5rem; color: #334155;">built with html · deploy on github pages</p>
+  </footer>
+
+</div>
+</body>
+</html>
